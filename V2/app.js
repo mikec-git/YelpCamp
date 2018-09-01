@@ -60,7 +60,12 @@ app.get("/campgrounds/new", function(req, res){
 // POST - Campgrounds page (CREATE Route)
 app.post("/campgrounds", function(req, res){
     //Post new campground to the db
-    Campground.create({name: req.body.campName, image: req.body.campImage}, function(err, newCampground){
+    var campName = req.body.campName,
+        campImage = req.body.campImage,
+        campDescription = req.body.campDescription,
+        newCamp = {name: campName, image: campImage, description: campDescription};
+        
+    Campground.create(newCamp, function(err, newCampground){
         if(err){
             console.log(err);
         } else {

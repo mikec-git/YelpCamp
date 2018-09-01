@@ -1,8 +1,9 @@
 <!-- Header Partial -->
 <% include partials/header %>
 
-
 <div class="container">
+    
+    <!-- Shows the main jumbotron header -->
     <header class="jumbotron">
         
         <!--<div class="container">-->
@@ -13,6 +14,7 @@
         
     </header>
     
+    <!-- Loops through all the campgrounds and displays them -->
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
         <% campgrounds.forEach(function(campground){ %>
         
