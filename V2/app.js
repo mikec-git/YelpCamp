@@ -13,30 +13,51 @@ app.set("view engine", "ejs");
 // Schema setup 
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
+
 
 // Campground schema used to map mongoose model to a document in MongoDB
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-// GET Landing Page
+// //Create a campground
+// Campground.create({
+//     name: "Salmon Creek",
+//     image: "https://images.pexels.com/photos/618848/pexels-photo-618848.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+//     description: "This is a wonderful spot within a valley. Salmon Creek is only a 5 minute walk!"
+// },function(err, campground){
+//     if(err){
+//         console.log(err);
+//     } else{
+//         console.log("Newly created campground: ");
+//         console.log(campground);
+//     }
+// });
+
+// GET - Landing Page
 app.get("/", function(req, res){
     res.render("landing");
 });
 
-// GET Campgrounds Page
+// GET - Campgrounds Page (INDEX Route)
 app.get("/campgrounds", function(req, res){
     //Get all campgrounds from the db
     Campground.find({}, function(err, allCampgrounds){
         if(err){
             console.log(err);
         } else{
-            res.render("campgrounds", {campgrounds: allCampgrounds});
+            res.render("index", {campgrounds: allCampgrounds});
         }
     });
 });
 
-// POST Campgrounds page
+// GET - New Campground Form Page (NEW Route)
+app.get("/campgrounds/new", function(req, res){
+    res.render("new"); 
+});
+
+// POST - Campgrounds page (CREATE Route)
 app.post("/campgrounds", function(req, res){
     //Post new campground to the db
     Campground.create({name: req.body.campName, image: req.body.campImage}, function(err, newCampground){
@@ -48,13 +69,17 @@ app.post("/campgrounds", function(req, res){
     });
 });
 
-// GET New Campground Form Page
-app.get("/campgrounds/new", function(req, res){
-    res.render("new"); 
+// GET - Show more info about a campground (SHOW Route)
+app.get("/campgrounds/:id", function(req, res) {
+    //find the campground with provided ID
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("show", {campground: foundCampground});
+        }
+    });
 });
-
-
-
 
 
 
