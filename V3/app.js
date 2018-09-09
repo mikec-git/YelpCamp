@@ -6,7 +6,6 @@ var express     = require("express"),
     seedDB      = require("./seeds");
     
     
-seedDB();
 
 // Connect to mongoDB
 mongoose.connect("mongodb://localhost/yelp_camp_v3", {useNewUrlParser: true});
@@ -14,21 +13,7 @@ mongoose.connect("mongodb://localhost/yelp_camp_v3", {useNewUrlParser: true});
 // Extended: true allows for any object type rather than just string/arrays
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-
-// //Create a campground
-// Campground.create({
-//     name: "Salmon Creek",
-//     image: "https://images.pexels.com/photos/618848/pexels-photo-618848.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-//     description: "This is a wonderful spot within a valley. Salmon Creek is only a 5 minute walk!"
-// },function(err, campground){
-//     if(err){
-//         console.log(err);
-//     } else{
-//         console.log("Newly created campground: ");
-//         console.log(campground);
-//     }
-// });
+seedDB();
 
 // GET - Landing Page
 app.get("/", function(req, res){
@@ -69,13 +54,14 @@ app.post("/campgrounds", function(req, res){
     });
 });
 
-// GET - Show more info about a campground (SHOW Route)
+// SHOW - Show more info about a campground (SHOW Route)
 app.get("/campgrounds/:id", function(req, res) {
     //find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if(err){
             console.log(err);
         } else{
+            // console.log(foundCampground);
             res.render("show", {campground: foundCampground});
         }
     });
