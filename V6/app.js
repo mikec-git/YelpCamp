@@ -10,14 +10,29 @@ var express         = require("express"),
     
 var app             = express();
 
-// Connect to mongoDB
-mongoose.connect("mongodb://localhost/yelp_camp_v3", {useNewUrlParser: true});
-
-// Extended: true allows for any object type rather than just string/arrays
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + "/public"));
+mongoose.connect("mongodb://localhost/yelp_camp_v6", {useNewUrlParser: true}); // Connect to mongoDB
+app.use(bodyParser.urlencoded({extended: true})); //extended: true allows for any object type rather than just string/arrays
 app.set("view engine", "ejs");
 seedDB();
+
+// PASSPORT CONFIG
+app.use(express.static(__dirname + "/public"));
+app.use(require("express-session")({
+    secret: "Blue eyes white dragon",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// ==================== //
+//        ROUTES        //
+// ==================== //
 
 // GET - Landing Page
 app.get("/", function(req, res){
@@ -102,6 +117,28 @@ app.post("/campgrounds/:id/comments", function(req, res){
                 }
             });
         }
+    });
+});
+
+// ==================== //
+//      AUTH ROUTES     //
+// ==================== //
+
+//Show register form
+app.get("/register", function(req, res) {
+    res.render("register");
+});
+
+app.post("/register", function(req, res) {
+    var newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/campgrounds");
+        });
     });
 });
 

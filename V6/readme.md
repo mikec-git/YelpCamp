@@ -74,6 +74,11 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 * Add public directory
 * Add custom stylesheet
 
-#Add User model
+#Auth Pt. 1 - Add User model
 * Install all packages needed for auth
 * Define User model
+
+#Auth Pt. 1 - Register
+* Configure Passport
+* Add register routes
+* Add register template
