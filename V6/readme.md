@@ -78,7 +78,11 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 * Install all packages needed for auth
 * Define User model
 
-#Auth Pt. 1 - Register
+#Auth Pt. 2 - Register
 * Configure Passport
 * Add register routes
 * Add register template
+
+#Auth Pt. 3 - Login
+* Add login routes
+* Add login template
