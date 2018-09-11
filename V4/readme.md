@@ -65,3 +65,7 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 
 * Add the comment new and create routes
 * Add the new comment form
+
+#Styling the Show page
+* Add sidebar to show page
+* Display comments nicely

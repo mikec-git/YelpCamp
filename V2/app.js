@@ -4,7 +4,7 @@ var express     = require("express"),
     mongoose    = require("mongoose");
 
 // Connect to mongoDB
-mongoose.connect("mongodb://localhost/yelp_camp");
+mongoose.connect("mongodb://localhost/yelp_camp_v2");
 
 // Extended: true allows for any object type rather than just string/arrays
 app.use(bodyParser.urlencoded({extended: true}));

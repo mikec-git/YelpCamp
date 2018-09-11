@@ -9,7 +9,7 @@ var express     = require("express"),
     
 
 // Connect to mongoDB
-mongoose.connect("mongodb://localhost/yelp_camp_v3", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/yelp_camp_v4", {useNewUrlParser: true});
 
 // Extended: true allows for any object type rather than just string/arrays
 app.use(bodyParser.urlencoded({extended: true}));
