@@ -130,3 +130,6 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 #Deleteing Comments
 * Add Destroy route
 * Add Delete button
+
+#Authorization Part 2: Comments
+* Check auth for comment edit/delete
