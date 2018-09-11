@@ -38,7 +38,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // Custom Middleware
 app.use(function(req, res, next){
-    res.locals.currentUser = req.user; //res.locals is available inside our templates
+    res.locals.currentUser = req.user; //res.locals is available inside every template
     next();
 });
 

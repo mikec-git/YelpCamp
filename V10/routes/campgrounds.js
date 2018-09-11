@@ -47,10 +47,6 @@ router.get("/:id", function(req, res) {
         if(err){
             console.log(err);
         } else{
-            // var author = {
-            //     id: req.user._id,
-            //     username: req.user.username
-            // };
             res.render("./campgrounds/show", {campground: foundCampground});
         }
     });
