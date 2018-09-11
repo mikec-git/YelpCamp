@@ -126,3 +126,7 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 * Add Edit route for comments
 * Add Edit button
 * Add Update route
+
+#Deleteing Comments
+* Add Destroy route
+* Add Delete button
