@@ -15,7 +15,7 @@ var methodOverride  = require("method-override"),
     commentRoutes       = require("./routes/comments"),
     authRoutes          = require("./routes/index");
 
-mongoose.connect("mongodb://localhost/yelp_camp_v8", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/yelp_camp_v10", {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true})); //extended: true allows for any object type rather than just string/arrays
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
