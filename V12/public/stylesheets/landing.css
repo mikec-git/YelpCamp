@@ -2,6 +2,11 @@ body {
     background-color: #000;
 }
 
+nav {
+    position: fixed;
+    z-index: 1;
+}
+
 #landing-header {
     z-index: 1;
     position: relative;
