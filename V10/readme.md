@@ -117,7 +117,7 @@ SHOW    /dogs/:id   GET     Shows info about one dog
 * Add Destroy route
 * Add Delete button
 
-#Authorization
+#Authorization (permissions)
 * User can only edit his/her campgrounds
 * User can only delete his/her campgrounds
 * Hide/Show edit and delete buttons
