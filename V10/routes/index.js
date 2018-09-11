@@ -1,7 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
-var User = require("../models/user");
+var express     = require("express"),
+    router      = express.Router(),
+    
+    passport    = require("passport"),
+    User        = require("../models/user");
 
 //Landing Page
 router.get("/", function(req, res){
@@ -43,6 +44,5 @@ router.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/campgrounds");
 });
-
 
 module.exports = router;

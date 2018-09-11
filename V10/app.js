@@ -1,29 +1,28 @@
-var express         = require("express"),
-    bodyParser      = require("body-parser"),
-    mongoose        = require("mongoose"),
-    methodOverride  = require("method-override"),
-    passport        = require("passport"),
+var methodOverride  = require("method-override"),
     LocalStrategy   = require("passport-local"),
-    Campground      = require("./models/campground"),
-    Comment         = require("./models/comment"),
-    User            = require("./models/user"),
-    seedDB          = require("./seeds");
+    bodyParser      = require("body-parser"),
+    passport        = require("passport"),
+    mongoose        = require("mongoose"),
+    express         = require("express"),
+    seedDB          = require("./seeds"),
+    app             = express(),
     
-var app             = express();
+    // Campground          = require("./models/campground"),
+    // Comment             = require("./models/comment"),
+    User                = require("./models/user"),
 
-// Requiring routes
-var campgroundRoutes    = require("./routes/campgrounds"),
+    campgroundRoutes    = require("./routes/campgrounds"),
     commentRoutes       = require("./routes/comments"),
     authRoutes          = require("./routes/index");
 
-mongoose.connect("mongodb://localhost/yelp_camp_v8", {useNewUrlParser: true}); // Connect to mongoDB
+mongoose.connect("mongodb://localhost/yelp_camp_v8", {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true})); //extended: true allows for any object type rather than just string/arrays
+app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 // seedDB(); //seed the database
 
-// PASSPORT CONFIG
-app.use(express.static(__dirname + "/public"));
+// Passport config
 app.use(require("express-session")({
     secret: "Blue eyes white dragon",
     resave: false,
@@ -46,7 +45,6 @@ app.use(function(req, res, next){
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/", authRoutes);
-
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The YelpCamp server has started!");

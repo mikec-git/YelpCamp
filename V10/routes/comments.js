@@ -1,10 +1,15 @@
-var express = require("express");
-var router = express.Router({mergeParams: true});
-var Campground = require("../models/campground");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
+var express         = require("express"),
+    router          = express.Router({mergeParams: true}),
+    
+    Campground      = require("../models/campground"),
+    Comment         = require("../models/comment"),
+    middleware      = require("../middleware");
 
-// NEW comment
+// =============================== //
+// /campgrounds/:id/comments route //
+// =============================== //
+
+// NEW - New comment form
 router.get("/new", middleware.isLoggedIn, function(req, res) {
     Campground.findById(req.params.id, function(err, campground){
         if(err){
@@ -15,7 +20,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
     });
 });
 
-// CREATE comment
+// CREATE - Create comment
 router.post("/", middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
         if(err){
@@ -27,9 +32,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                     console.log(err);
                 } else{
                     //Add username and id to comment
-                    comment.author.id = req.user._id;
+                    comment.author.id       = req.user._id;
                     comment.author.username = req.user.username;
-                    //save comment
+                    
+                    //Save comment
                     comment.save();
                     campground.comments.push(comment);
                     campground.save();
@@ -40,8 +46,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
-
-// EDIT comment
+// EDIT - Modify comment
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
     Comment.findById(req.params.comment_id, function(err, comment) {
         if(err){
@@ -52,7 +57,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
     });
 });
 
-// UPDATE comment
+// UPDATE - Submit comment changes
 router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, comment){
         if(err){
@@ -63,7 +68,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     });
 });
 
-// DESTROY comment
+// DESTROY - Delete comment
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(err){

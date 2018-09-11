@@ -1,10 +1,7 @@
-var middlewareObject = {};
-var Campground = require("../models/campground");
-var Comment = require("../models/comment");
+var middlewareObject    = {},
+    Campground          = require("../models/campground"),
+    Comment             = require("../models/comment");
 
-// ==================== //
-//      MIDDLEWARE      //
-// ==================== //
 
 middlewareObject.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
@@ -30,7 +27,6 @@ middlewareObject.checkCampgroundOwnership = function(req, res, next){
             }
         });
     } else{
-        //if not, redirect
         res.redirect("back");
     }
 };
