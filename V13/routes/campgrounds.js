@@ -16,7 +16,7 @@ router.get("/", function(req, res){
             req.flash("error", "Could not find campgrounds");
             res.redirect("back");
         } else{
-            res.render("./campgrounds/index", {campgrounds: allCampgrounds});
+            res.render("./campgrounds/index", {campgrounds: allCampgrounds, page: "campgrounds"});
         }
     });
 });
