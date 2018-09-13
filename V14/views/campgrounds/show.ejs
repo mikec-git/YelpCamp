@@ -72,7 +72,7 @@
                 zoom: 8
             });
             
-            var popup = new mapboxgl.Popup().setHTML("<h3><%= campground.location %></h3>");
+            var popup = new mapboxgl.Popup().setHTML("<h6><%= campground.location %></h6>");
             var marker = new mapboxgl.Marker().setLngLat(center).setPopup(popup).addTo(map);
         }
     </script>

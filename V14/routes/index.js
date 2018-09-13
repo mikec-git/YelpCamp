@@ -16,7 +16,7 @@ router.get("/register", function(req, res) {
 
 //Register form post
 router.post("/register", function(req, res) {
-    var newUser = new User({username: req.body.username});
+    var newUser = new User({username: req.body.username.toLowerCase()});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             req.flash("error", err.message);
