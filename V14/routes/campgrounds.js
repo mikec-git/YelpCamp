@@ -1,8 +1,11 @@
-var express = require("express"),
-    router = express.Router(),
+var express         = require("express"),
+    router          = express.Router(),
+    MapboxClient    = require('mapbox/lib/services/geocoding'),
     
-    Campground = require("../models/campground"),
-    middleware = require("../middleware");
+    Campground      = require("../models/campground"),
+    middleware      = require("../middleware");
+
+const client        = new MapboxClient(process.env.GEOCODER_API_KEY);
 
 // =================== //
 // /campgrounds routes //
@@ -32,23 +35,37 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         campPrice       = req.body.campPrice,
         campImage       = req.body.campImage,
         campDescription = req.body.campDescription, // Associated campsite with user
-        author          = {id: req.user._id, username: req.user.username},
-        newCamp         = {
+        author          = {id: req.user._id, username: req.user.username};
+        
+    client.geocodeForward(req.body.location, function(err, data){
+        if(err || !data.features.length){
+            req.flash("error", "Invalid address");
+            return res.redirect("back");
+        }
+        
+        var lat = data.features[0].center[1];
+        var lng = data.features[0].center[0];
+        var location = data.features[0].place_name;
+        var newCamp         = {
             name:         campName, 
             price:        campPrice,
             image:        campImage, 
             description:  campDescription, 
-            author:       author
+            author:       author,
+            location:     location,
+            lat:          lat,
+            lng:          lng
         };
         
-    Campground.create(newCamp, function(err, newCampground){
-        if(err){
-            req.flash("error", "Could not create campground");
-            res.redirect("back");
-        } else {
-            req.flash("success", "Campground succesfully created");
-            res.redirect("/campgrounds");
-        }
+        Campground.create(newCamp, function(err, newCampground){
+            if(err){
+                req.flash("error", "Could not create campground");
+                res.redirect("back");
+            } else {
+                req.flash("success", "Campground succesfully created");
+                res.redirect("/campgrounds");
+            }
+        });
     });
 });
 
@@ -78,6 +95,15 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req ,res){
 
 // UPDATE - Update changes
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
+    client.geocodeForward(req.body.campground.location, function(err, data){
+        if(err || !data.features.length){
+            req.flash("error", "Invalid address");
+            return res.redirect("back");
+        }
+        req.body.campground.lat = data.features[0].center[1];
+        req.body.campground.lng = data.features[0].center[0];
+        req.body.campground.location = data.features[0].place_name;
+        
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, campground){
         if(err){
             req.flash("error", "Could not update campground");
@@ -86,7 +112,8 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
             req.flash("success", "Campground successfully updated");
             res.redirect("/campgrounds/" + req.params.id);
         }
-    })
+    });
+    });
 });
 
 // DESTROY - Delete campground

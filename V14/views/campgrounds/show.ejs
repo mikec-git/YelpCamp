@@ -8,8 +8,7 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
-            
-        
+            <div id="map"></div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -55,5 +54,27 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        initMap();
+        
+        function initMap(){
+            mapboxgl.accessToken = 'pk.eyJ1IjoibWlrZXkxMjM1NTUiLCJhIjoiY2pseWgyMGVuMGw1NTN2cGpzbHVuOWx4ZSJ9.N6TNg5C36-Rc5i1MVFFrhQ';
+            var lng         = <%= campground.lng %>;
+            var lat         = <%= campground.lat %>;
+            var location    = "<%= campground.location %>";
+            var center = [lng, lat];
+            
+            var map = new mapboxgl.Map({
+                container: 'map',                           // HTML container id
+                style: 'mapbox://styles/mapbox/streets-v9', // style URL
+                center: center,                             // starting position as [lng, lat]
+                zoom: 8
+            });
+            
+            var popup = new mapboxgl.Popup().setHTML("<h3><%= campground.location %></h3>");
+            var marker = new mapboxgl.Marker().setLngLat(center).setPopup(popup).addTo(map);
+        }
+    </script>
 
 <% include ../partials/footer %>
