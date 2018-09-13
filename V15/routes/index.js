@@ -29,6 +29,34 @@ router.post("/register", function(req, res) {
     });
 });
 
+//Show admin register form
+router.get("/register_admin", function(req, res) {
+    res.render("register_admin", {page: "register"});
+});
+
+//Register form post
+router.post("/register_admin", function(req, res) {
+    var newUser = new User({username: req.body.username.toLowerCase()});
+    var code = req.body.adminCode;
+    if(code && code.length > 0){
+        if(code !== process.env.SECRET_ADMIN_CODE){
+            req.flash("error", "Incorrect code!");
+            return res.redirect("/register_admin");
+        }
+        newUser.isAdmin = true;
+    }
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            req.flash("error", err.message);
+            return res.redirect("/register_admin");
+        }
+        passport.authenticate("local")(req, res, function(){
+            req.flash("success", "(Admin) Welcome to YelpCamp " + user.username + "!")
+            res.redirect("/campgrounds");
+        });
+    });
+});
+
 //Show login form
 router.get("/login", function(req, res) {
     res.render("login", {page: "login"});
@@ -36,8 +64,7 @@ router.get("/login", function(req, res) {
 
 //Login form logic
 router.post("/login", function(req, res, next){ 
-    passport.authenticate("local", 
-        {
+    passport.authenticate("local", {
             successRedirect: "/campgrounds",
             failureRedirect: "/login",
             successFlash: "Welcome " + req.body.username + "!",
