@@ -17,7 +17,7 @@
                     <h4 class="pull-right">$<%= campground.price %>/night</h4>
                     <h4><a href="#"><%= campground.name %></a></h4>
                     <p><%= campground.description %></p>
-                    <p><em>Submitted by: <%= campground.author.username %>, <%= moment(campground.created).fromNow() %></em></p>
+                    <p><em>Submitted by: <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>, <%= moment(campground.created).fromNow() %></em></p>
                     
                     <!-- Show edit/delete buttons only if campground-created user is logged in -->
                     <% if(currentUser && (campground.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
@@ -37,7 +37,7 @@
                 <% campground.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12 each-comment">
-                            <strong><%= comment.author.username %></strong>
+                            <strong><a href="/users/<%= comment.author.id %>"><%= comment.author.username %></a></strong>
                             <span class="pull-right"><%= moment(comment.created).fromNow() %></span>
                             <div>
                                 <span><%= comment.text %></span>

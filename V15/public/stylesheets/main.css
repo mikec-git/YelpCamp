@@ -29,3 +29,19 @@
     width: 100%;
     margin-bottom: 20px;
 }
+
+.profile-campgrounds {
+    width: 100%;
+}
+
+.profile-campgrounds h3 {
+    margin-left: 15px;
+}
+
+.profile-each-campground {
+    width: 20%;
+}
+
+.profile-each-campground img {
+    height: 150px !important;
+}

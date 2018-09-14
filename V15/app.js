@@ -1,6 +1,7 @@
     require('dotenv').config();
     
 var methodOverride      = require("method-override"),
+    session             = require("express-session"),
     LocalStrategy       = require("passport-local"),
     flash               = require("connect-flash"),
     bodyParser          = require("body-parser"),
@@ -29,10 +30,10 @@ app.locals.moment = require("moment");
 // seedDB(); //seed the database
 
 // Passport config
-app.use(require("express-session")({
-    secret:             "Blue eyes white dragon",
-    resave:             false,
-    saveUninitialized:  false
+app.use(session({
+    secret: 'thaeth16h1a6th1ae6',
+    resave: false,
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());

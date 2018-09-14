@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-4">
+        <h1><%= user.username %></h1>
+        <div class="thumbnail">
+            <img src="<%= user.avatar %>" alt="user profile image">
+            <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et tortor at risus viverra adipiscing at in. Blandit aliquam etiam erat velit scelerisque in dictum non consectetur. Penatibus et magnis dis parturient montes. Purus in mollis nunc sed id semper risus. Placerat duis ultricies lacus sed turpis tincidunt id aliquet risus. Magna etiam tempor orci eu lobortis elementum nibh tellus molestie. Vel pharetra vel turpis nunc eget lorem dolor sed viverra. Sapien nec sagittis aliquam malesuada bibendum. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris ultrices. Diam maecenas ultricies mi eget mauris pharetra et. Consectetur adipiscing elit duis tristique sollicitudin nibh sit. Et ligula ullamcorper malesuada proin libero nunc consequat interdum varius. Ac turpis egestas sed tempus urna et pharetra pharetra. Morbi tincidunt ornare massa eget. Sapien pellentesque habitant morbi tristique senectus et netus et. Bibendum neque egestas congue quisque egestas diam in.</p>
+    </div>    
+    <div class="profile-campgrounds">
+        <h3><%= user.username %>'s Campgrounds</h3>
+        <% campgrounds.forEach(campground => { %>
+            <div class="col-md-3 col-sm-6 profile-each-campground">
+                <div class="thumbnail">
+                    <a href="/campgrounds/<%= campground._id %>">
+                        <img src="<%= campground.image %>">
+                        <div class="caption"><%= campground.name %></div>
+                    </a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>
